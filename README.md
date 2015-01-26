@@ -30,4 +30,11 @@ TAPI has the following conventions. For instance:
 1. app.get('/sample/:id/?):
  * As before, TAPI will load the SampleController but because an extra parameter has been defined it will try to perform the function mapped to "GET". If there is no custom mapping defined for GET, then TAPI will try to perform the "get" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same. If either of the first two cases exists, TAPI will pass in the parameters as an array into which ever function is called. 
  
-1. app.post('/sample/?'):
+1. app.post('/sample/:optional?'):
+ * TAPI will load the SampleController class and will look for a custom mapping against 'POST'. If it is set it will execute the mapped function otherwise it will attempt to execute the "save" function. As before, if neither condition is met TAPI will return the standard not implented response. If a condition is met TAPI will pass both the POST payload and the URL parameters to the function with the URL parameters passed in as an indexed array and the payload as an associative array. 
+ 
+1. app.put('/sample/:optional?'):
+ * 
+ 
+1. app.del('/sample/:optional?'):
+ *

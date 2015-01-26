@@ -110,7 +110,7 @@ abstract class API {
         $this->reject('get not implemented', 501);
     }
     
-    protected function save($data) {
+    protected function save($args, $data) {
         $this->reject('save not implemented', 501);
     }
     
