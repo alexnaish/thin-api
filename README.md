@@ -24,17 +24,24 @@ All you have is a blank slate. You'll need to define your Controllers & Models b
 
 TAPI has the following conventions. For instance:
 
-1. app.get('/sample/?):
+1. The first parameter passed into the URL will map to your controller. For instance "http://$API_BASE_DIR/test/" will load the TestController class. If we attempt to access "http://$API_BASE_DIR/example/blah" will load the ExampleController class. All controllers must be suffixed with "Controller".
+1. All subsequent URL parameters will be passed into your controller functions as an indexed array.
+2. POST and PUT requests require the data payload to be in the JSON format. TAPI will decode the JSON and convert it into an associative array. Once converted TAPI will pass the payload into your respective POST/PUT function as the second parameter.
+
+Routing
+-----
+
+1. app.get('$BASE/sample/?):
  * TAPI will load the SampleController and because of the URL structure it will try to perform the function mapped to "QUERY". If there is no custom mapping defined for QUERY, then TAPI will try to perform the "query" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same.
  
-1. app.get('/sample/:id/?):
+1. app.get('$BASE/sample/:id/?):
  * As before, TAPI will load the SampleController but because an extra parameter has been defined it will try to perform the function mapped to "GET". If there is no custom mapping defined for GET, then TAPI will try to perform the "get" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same. If either of the first two cases exists, TAPI will pass in the parameters as an array into which ever function is called. 
  
-1. app.post('/sample/:optional?'):
+1. app.post('$BASE/sample/:optional?'):
  * TAPI will load the SampleController class and will look for a custom mapping against 'POST'. If it is set it will execute the mapped function otherwise it will attempt to execute the "save" function. As before, if neither condition is met TAPI will return the standard not implented response. If a condition is met TAPI will pass both the POST payload and the URL parameters to the function with the URL parameters passed in as an indexed array and the payload as an associative array. 
  
-1. app.put('/sample/:optional?'):
+1. app.put('$BASE/sample/:optional?'):
  * 
  
-1. app.del('/sample/:optional?'):
+1. app.del('$BASE/sample/:optional?'):
  *
