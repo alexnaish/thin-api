@@ -24,8 +24,10 @@ All you have is a blank slate. You'll need to define your Controllers & Models b
 
 TAPI has the following conventions. For instance:
 
-1. app.get('/sample/)?:
+1. app.get('/sample/?):
  * TAPI will load the SampleController and because of the URL structure it will try to perform the function mapped to "QUERY". If there is no custom mapping defined for QUERY, then TAPI will try to perform the "query" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same.
- 1. app.get('/sample/:id)?:
+ 
+1. app.get('/sample/:id/?):
  * As before, TAPI will load the SampleController but because an extra parameter has been defined it will try to perform the function mapped to "GET". If there is no custom mapping defined for GET, then TAPI will try to perform the "get" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same. If either of the first two cases exists, TAPI will pass in the parameters as an array into which ever function is called. 
- 1. app.post
+ 
+1. app.post('/sample/?'):
