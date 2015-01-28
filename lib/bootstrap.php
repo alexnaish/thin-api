@@ -34,7 +34,7 @@ function handleRequest($request) {
     if(class_exists($controller)){
         new $controller($queryString);
     } else {
-        throw new Exception('No such Endpoint exists.');
+        header("HTTP/1.0 404 Not Found");
         return;
     }
 }
