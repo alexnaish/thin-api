@@ -84,22 +84,43 @@ abstract class API {
     
     private function _handleGetRequest($args){
         if(count($args) == 0 || $args[0] == '') {
-            $this->query();
+            if(isset($this->mapping['QUERY'])){
+                $this->$this->mapping['QUERY']();
+            } else {
+                $this->query();    
+            }
         } else {
-            $this->get($args);
+            
+            if(isset($this->mapping['GET'])){
+                $this->$this->mapping['GET']($args);
+            } else {
+                $this->get($args);   
+            }
         }
     }
     
     private function _handlePostRequest($args, $data){
-        $this->save($args, $data);
+        if(isset($this->mapping['POST'])){
+            $this->$this->mapping['POST']($args, $data);
+        } else {
+            $this->save($args, $data);
+        }
     }
     
     private function _handlePutRequest($args, $data){
-        $this->update($args, $data);    
+        if(isset($this->mapping['POST'])){
+            $this->$this->mapping['POST']($args, $data);
+        } else {
+            $this->update($args, $data);    
+        }
     }
     
     private function _handleDeleteRequest($args){
-        $this->delete($args);
+        if(isset($this->mapping['DELETE'])){
+            $this->$this->mapping['DELETE']($args);
+        } else {
+            $this->delete($args);
+        }
     }
     
     protected function query() {
@@ -118,7 +139,7 @@ abstract class API {
         $this->reject('update not implemented', 501);
     }
     
-    protected function delete($args, $data) {
+    protected function delete($args) {
         $this->reject('delete not implemented', 501);
     }
     
