@@ -8,13 +8,18 @@ abstract class API {
     protected $payload = array();
     protected $headers = array();
     
-    function __construct($args) {
+    function __construct($args = array()) {
         $this->headers['cors'] = "Access-Control-Allow-Methods: *";
         $this->headers['content-type'] = "Content-Type: application/json";
         $this->_getRequestMethod();
         $this->construct($args);
         $this->setCacheControl('private', 30);
         $this->_executeAction($this->method, $args);
+    }
+    
+    
+    protected function construct(){
+        //Stubbed
     }
     
     protected function setCacheControl($type = 'private', $maxAge = 30){
@@ -148,7 +153,7 @@ abstract class API {
             200 => 'OK',
             201 => 'Created',
             204 => 'No Content',
-            400 => 'Bad Request'
+            400 => 'Bad Request',
             401 => 'Unauthorized',
             403 => 'Forbidden',
             404 => 'Not Found',   
