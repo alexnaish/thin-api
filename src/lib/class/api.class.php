@@ -11,7 +11,7 @@ abstract class API {
     function __construct($args = array()) {
         $this->headers['cors'] = "Access-Control-Allow-Methods: *";
         $this->headers['content-type'] = "Content-Type: application/json";
-        $this->_getRequestMethod();
+        $this->_getRequestMethod($_SERVER['REQUEST_METHOD']);
         $this->construct($args);
         $this->setCacheControl('private', 30);
         $this->_executeAction($this->method, $args);
@@ -22,24 +22,28 @@ abstract class API {
         //Stubbed
     }
     
-    protected function setCacheControl($type = 'private', $maxAge = 30){
+    function getHeader($key) {
+        return $this->headers[$key];
+    }
+    
+    function setCacheControl($type = 'private', $maxAge = 30){
         $this->headers['cache-control'] = "Cache-Control: $type, max-age=$maxAge";
     }
     
-    protected function reject($message, $status = 500){
+    function reject($message, $status = 500){
         $data = array();
         $data['status'] = $status;
         $data['message'] = $message;
         $this->respond($data, $status);
     }
     
-    protected function respond($data, $status = 200) {
+    function respond($data, $status = 200) {
         $this->headers[] = "HTTP/1.1 " . $status . " " . $this->_requestStatus($status);
         $this->payload = $data;
     }
     
-    private function _getRequestMethod (){
-        $this->method = $_SERVER['REQUEST_METHOD'];
+    private function _getRequestMethod ($serverRequest){
+        $this->method = $serverRequest;
         if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
             if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
                 $this->method = 'DELETE';

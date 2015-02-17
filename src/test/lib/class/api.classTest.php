@@ -33,8 +33,12 @@ class ApiClassTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('model', $this->apiClass);
     }
     
-    public function testClassHasNecessaryMethods(){
-         $this->assertClassHasAttribute('foo', 'API');
+    public function testClassConstructorSetsDefaultHeaders(){
+        $cors = $this->apiClass->getHeader('cors');
+        $contentType = $this->apiClass->getHeader('content-type');
+        
+        $this->assertEquals($cors, "Access-Control-Allow-Methods: *");
+        $this->assertEquals($contentType, "Content-Type: application/json");
     }
     
 }
