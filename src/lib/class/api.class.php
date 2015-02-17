@@ -11,30 +11,29 @@ abstract class API {
     function __construct($args = array()) {
         $this->setHeader('cors', 'Access-Control-Allow-Methods: *');
         $this->setHeader('content-type', 'Content-Type: application/json');
-        $this->_getRequestMethod($_SERVER['REQUEST_METHOD']);
+        $this->method = $this->_getRequestMethod($_SERVER);
         $this->construct($args);
         $this->setCacheControl('private', 30);
         $this->_executeAction($this->method, $args);
     }
     
-    
     protected function construct(){
         //Stubbed
     }
     
-    function setHeader($key, $value){
+    protected function setHeader($key, $value){
         $this->headers[$key] = $value;
     }
     
-    function getHeader($key){
+    protected function getHeader($key){
         return $this->headers[$key];
     }
     
-    function getPayload(){
+    private function getPayload(){
         return $this->payload;
     }
     
-    function setCacheControl($type = 'private', $maxAge = 30){
+    protected function setCacheControl($type = 'private', $maxAge = 30){
         $this->setHeader('cache-control', "Cache-Control: $type, max-age=$maxAge");
     }
     
@@ -50,17 +49,18 @@ abstract class API {
         $this->payload = $data;
     }
     
-    private function _getRequestMethod ($serverRequest){
-        $this->method = $serverRequest;
-        if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
-            if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
-                $this->method = 'DELETE';
-            } else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
-                $this->method = 'PUT';
+    private function _getRequestMethod ($serverArray){
+        $method = $serverArray['REQUEST_METHOD'];
+        if ($method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $serverArray)) {
+            if ($serverArray['HTTP_X_HTTP_METHOD'] == 'DELETE') {
+                $method = 'DELETE';
+            } else if ($serverArray['HTTP_X_HTTP_METHOD'] == 'PUT') {
+                $method = 'PUT';
             } else {
                 $this->reject('Unknown Request Method', 500);
             }
         }
+        return $method;
     }
     
     private function _executeAction($method, $args) {
@@ -107,7 +107,6 @@ abstract class API {
                 $this->query();    
             }
         } else {
-            
             if(isset($this->mapping['GET'])){
                 $this->$this->mapping['GET']($args);
             } else {
@@ -182,7 +181,7 @@ abstract class API {
         foreach($this->headers as $header){
             header($header);
         }
-        echo json_encode($this->payload);
+        echo json_encode($this->getPayload());
     }
     
 }
