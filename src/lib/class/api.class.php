@@ -9,8 +9,8 @@ abstract class API {
     protected $headers = array();
     
     function __construct($args = array()) {
-        $this->headers['cors'] = "Access-Control-Allow-Methods: *";
-        $this->headers['content-type'] = "Content-Type: application/json";
+        $this->setHeader('cors', 'Access-Control-Allow-Methods: *');
+        $this->setHeader('content-type', 'Content-Type: application/json');
         $this->_getRequestMethod($_SERVER['REQUEST_METHOD']);
         $this->construct($args);
         $this->setCacheControl('private', 30);
@@ -22,12 +22,20 @@ abstract class API {
         //Stubbed
     }
     
-    function getHeader($key) {
+    function setHeader($key, $value){
+        $this->headers[$key] = $value;
+    }
+    
+    function getHeader($key){
         return $this->headers[$key];
     }
     
+    function getPayload(){
+        return $this->payload;
+    }
+    
     function setCacheControl($type = 'private', $maxAge = 30){
-        $this->headers['cache-control'] = "Cache-Control: $type, max-age=$maxAge";
+        $this->setHeader('cache-control', "Cache-Control: $type, max-age=$maxAge");
     }
     
     function reject($message, $status = 500){
@@ -38,7 +46,7 @@ abstract class API {
     }
     
     function respond($data, $status = 200) {
-        $this->headers[] = "HTTP/1.1 " . $status . " " . $this->_requestStatus($status);
+        $this->setHeader('response', "HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
         $this->payload = $data;
     }
     
