@@ -7,15 +7,21 @@ As I moved away from pure PHP applications and moved to a more modern approach o
 
 I started off by defining some conventions. With frameworks like Grails, you get the convention of /Controller/Action/Params. I wanted something similar without the incredible bloat of running a Grails instance. So I've used a combination of the PHP autoloader and a little Apache htaccess magic to define a REST API framework that fits my needs.
 
-
 Setup
 -----
 
 You can place the API anywhere on your hosting. The steps you need to follow to get a quick and easy REST API up and running are:
 
-1. Modify your .htaccess file and change the RewriteBase property to the directory you've placed the code. 
+1. Clone the Repository and copy everything in the src folder into the directory you want your API to exist on.
+1. Modify the .htaccess file and change the RewriteBase property to the directory you've placed the code. 
 1. Update /lib/config.php to contain your database access credentials.
+1. Remove the test directory as required.
 1. Done.
+
+Testing
+-----
+
+To run the tests please download PHPUnit as instructed [here](https://phpunit.de/manual/current/en/installation.html#installation.phar). Once you have downloaded and installed it, just run PHPUnit in the root folder of the project.
 
 Usage
 -----
@@ -41,7 +47,7 @@ Routing
  * TAPI will load the SampleController class and will look for a custom mapping against 'POST'. If it is set it will execute the mapped function otherwise it will attempt to execute the "save" function. As before, if neither condition is met TAPI will return the standard not implented response. If a condition is met TAPI will pass both the POST payload and the URL parameters to the function with the URL parameters passed in as an indexed array and the payload as an associative array. 
  
 1. app.put('$BASE/sample/:optional?'):
- * 
+ * TAPI will load the SampleController class and will look for a custom mapping against 'PUT'. If set, then it will parse the function and attempt to run it as a method defined within the class. If no mapping is set TAPI will fall back to the default method and execute the "update" function. If this is not defined within the class extending the API class then it will fall back to the base class method and will return the standard not implented response.
  
 1. app.del('$BASE/sample/:optional?'):
- *
+ * TAPI will load the SampleController class and will look for a custom mapping against 'DELETE'.
