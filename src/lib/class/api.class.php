@@ -124,8 +124,8 @@ abstract class API {
     }
     
     private function _handlePutRequest($args, $data){
-        if(isset($this->mapping['POST'])){
-            $this->$this->mapping['POST']($args, $data);
+        if(isset($this->mapping['PUT'])){
+            $this->$this->mapping['PUT']($args, $data);
         } else {
             $this->update($args, $data);    
         }
