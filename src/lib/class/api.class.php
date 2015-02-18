@@ -99,16 +99,16 @@ abstract class API {
         return $clean_input;
     }
     
-    private function _handleGetRequest($args){
+    private function _handleGetRequest($args = array()){
         if(count($args) == 0 || $args[0] == '') {
             if(isset($this->mapping['QUERY'])){
-                $this->$this->mapping['QUERY']();
+                $this->{$this->mapping['QUERY']}();
             } else {
                 $this->query();    
             }
         } else {
             if(isset($this->mapping['GET'])){
-                $this->$this->mapping['GET']($args);
+                $this->{$this->mapping['GET']}($args);
             } else {
                 $this->get($args);   
             }
@@ -117,7 +117,7 @@ abstract class API {
     
     private function _handlePostRequest($args, $data){
         if(isset($this->mapping['POST'])){
-            $this->$this->mapping['POST']($args, $data);
+            $this->{$this->mapping['POST']}($args, $data);
         } else {
             $this->save($args, $data);
         }
@@ -125,7 +125,7 @@ abstract class API {
     
     private function _handlePutRequest($args, $data){
         if(isset($this->mapping['PUT'])){
-            $this->$this->mapping['PUT']($args, $data);
+            $this->{$this->mapping['PUT']}($args, $data);
         } else {
             $this->update($args, $data);    
         }
@@ -133,7 +133,7 @@ abstract class API {
     
     private function _handleDeleteRequest($args){
         if(isset($this->mapping['DELETE'])){
-            $this->$this->mapping['DELETE']($args);
+            $this->{$this->mapping['DELETE']}($args);
         } else {
             $this->delete($args);
         }

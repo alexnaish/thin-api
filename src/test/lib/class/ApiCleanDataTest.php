@@ -11,14 +11,14 @@ class ApiCleanDataTest extends PHPUnit_Framework_TestCase
  
     function setUp() {
         $this->apiClass = new ConcreteApiClass();
-        $this->getPayloadMethod = new ReflectionMethod('ConcreteApiClass', 'getPayload');
+        $this->getPayloadMethod = new ReflectionMethod('API', 'getPayload');
         $this->getPayloadMethod->setAccessible(TRUE);
-        $this->getHeaderMethod = new ReflectionMethod('ConcreteApiClass', 'getHeader');
+        $this->getHeaderMethod = new ReflectionMethod('API', 'getHeader');
         $this->getHeaderMethod->setAccessible(TRUE);
     }
     
     public function testCleanDataRemovesHtmlTagsForStrings(){
-        $cleanDataMethod = new ReflectionMethod('ConcreteApiClass', '_cleanData');
+        $cleanDataMethod = new ReflectionMethod('API', '_cleanData');
         $cleanDataMethod->setAccessible(TRUE);
         
         //Defaults
@@ -29,7 +29,7 @@ class ApiCleanDataTest extends PHPUnit_Framework_TestCase
     }
     
     public function testCleanDataRemovesHtmlTagsForEachArrayItem(){
-        $cleanDataMethod = new ReflectionMethod('ConcreteApiClass', '_cleanData');
+        $cleanDataMethod = new ReflectionMethod('API', '_cleanData');
         $cleanDataMethod->setAccessible(TRUE);
         
         //Defaults

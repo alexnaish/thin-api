@@ -6,19 +6,16 @@ class ApiUtilityTest extends PHPUnit_Framework_TestCase
 {
     
     private $apiClass;
-    private $getPayloadMethod;
     private $getHeaderMethod;
  
     function setUp() {
         $this->apiClass = new ConcreteApiClass();
-        $this->getPayloadMethod = new ReflectionMethod('ConcreteApiClass', 'getPayload');
-        $this->getPayloadMethod->setAccessible(TRUE);
-        $this->getHeaderMethod = new ReflectionMethod('ConcreteApiClass', 'getHeader');
+        $this->getHeaderMethod = new ReflectionMethod('API', 'getHeader');
         $this->getHeaderMethod->setAccessible(TRUE);
     }
     
     public function testSetCacheControlSetsCachingHeader(){
-        $setCacheControlMethod = new ReflectionMethod('ConcreteApiClass', 'setCacheControl');
+        $setCacheControlMethod = new ReflectionMethod('API', 'setCacheControl');
         $setCacheControlMethod->setAccessible(TRUE);
         
         //Defaults
@@ -90,11 +87,6 @@ class ApiUtilityTest extends PHPUnit_Framework_TestCase
         $server = array('REQUEST_METHOD' => 'POST', 'HTTP_X_HTTP_METHOD' => 'DELETE');
         $result = $method->invoke($instance, $server);
         $this->assertEquals('DELETE', $result);
-        
-        // Scenario 5 - Unrecognised Request method
-        $server = array('REQUEST_METHOD' => 'FAKE');
-        $result = $method->invoke($instance, $server);
-        $this->assertEquals('FAKE', $result);
         
     }
     
