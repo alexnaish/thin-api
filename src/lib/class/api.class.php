@@ -12,8 +12,8 @@ abstract class API {
         $this->setHeader('cors', 'Access-Control-Allow-Methods: *');
         $this->setHeader('content-type', 'Content-Type: application/json');
         $this->method = $this->_getRequestMethod($_SERVER);
-        $this->construct($args);
         $this->setCacheControl('private', 30);
+        $this->construct($args);
         $this->_executeAction($this->method, $args);
     }
     
@@ -87,14 +87,14 @@ abstract class API {
         }
     }
     
-    private function _cleanData ($data) {
-        $clean_input = Array();
+    private function _cleanData ($data = array()) {
+        $clean_input = array();
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 $clean_input[$k] = $this->_cleanData($v);
             }
         } else {
-            $clean_input = trim(strip_tags($data));
+            $clean_input = trim(addslashes(strip_tags($data)));
         }
         return $clean_input;
     }

@@ -2,15 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../lib/class/api.class.php';
 
-
-class ConcreteApiClass extends API 
-{
-    function __destruct(){
-       //Stub out 
-    }
-}
-
-class ApiClassTest extends PHPUnit_Framework_TestCase
+class ApiUtilityTest extends PHPUnit_Framework_TestCase
 {
     
     private $apiClass;
@@ -23,30 +15,6 @@ class ApiClassTest extends PHPUnit_Framework_TestCase
         $this->getPayloadMethod->setAccessible(TRUE);
         $this->getHeaderMethod = new ReflectionMethod('ConcreteApiClass', 'getHeader');
         $this->getHeaderMethod->setAccessible(TRUE);
-    }
-    
-    public function testApiCanBeExtended()
-	{
-        $this->assertNotNull($this->apiClass); 
-	}
-    
-    public function testClassHasNecessaryAttributes()
-    {
-        $this->assertObjectHasAttribute('headers', $this->apiClass);
-        $this->assertObjectHasAttribute('mappings', $this->apiClass);
-        $this->assertObjectHasAttribute('payload', $this->apiClass);
-        $this->assertObjectHasAttribute('method', $this->apiClass);
-        $this->assertObjectHasAttribute('model', $this->apiClass);
-    }
-    
-    public function testClassConstructorSetsDefaultHeaders(){
-        $cors = $this->getHeaderMethod->invoke($this->apiClass, 'cors');
-        $contentType = $this->getHeaderMethod->invoke($this->apiClass, 'content-type');
-        $cacheControl = $this->getHeaderMethod->invoke($this->apiClass, 'cache-control');
-        
-        $this->assertEquals("Access-Control-Allow-Methods: *", $cors);
-        $this->assertEquals("Content-Type: application/json", $contentType);
-        $this->assertEquals("Cache-Control: private, max-age=30", $cacheControl);
     }
     
     public function testSetCacheControlSetsCachingHeader(){
@@ -98,8 +66,6 @@ class ApiClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, 'Created');
     }
     
-    
-    
     public function testGetRequestMethodReturnsCorrectValue(){
         $instance = new ConcreteApiClass();
         $method = new ReflectionMethod('ConcreteApiClass', '_getRequestMethod');
@@ -125,59 +91,11 @@ class ApiClassTest extends PHPUnit_Framework_TestCase
         $result = $method->invoke($instance, $server);
         $this->assertEquals('DELETE', $result);
         
-        // Scenario 5 - FAKE Request with HTTP_X_HTTP_METHOD
-        // TODO
+        // Scenario 5 - Unrecognised Request method
+        $server = array('REQUEST_METHOD' => 'FAKE');
+        $result = $method->invoke($instance, $server);
+        $this->assertEquals('FAKE', $result);
         
-    }
-    
-    public function testRejectSetsResponsePayloadAndHeader(){
-        $status = 500;
-        $message = 'test message';
-        $expectedHeader = "HTTP/1.1 500 Internal Server Error";
-        
-        $this->apiClass->reject($message, $status);
-
-        $actualHeader = $this->getHeaderMethod->invoke($this->apiClass, 'response');
-        $actualPayload = $this->getPayloadMethod->invoke($this->apiClass);
-        
-        $this->assertEquals($expectedHeader, $actualHeader);
-        $this->assertArrayHasKey ('status', $actualPayload);
-        $this->assertArrayHasKey ('message', $actualPayload);
-        $this->assertEquals($status, $actualPayload['status']);
-        $this->assertEquals($message, $actualPayload['message']);
-    }
-    
-    public function testRespondSetsPayloadAndHeader(){
-        
-        //Scenario 1 - 200 Ok
-        $status = 200;
-        $payloadKey = "test";
-        $payloadValue = "This is a value for an array";
-        $payload = array($payloadKey => $payloadValue);
-        $expectedHeader = "HTTP/1.1 200 OK";
-        
-        $this->apiClass->respond($payload, $status);
-        $actualHeader = $this->getHeaderMethod->invoke($this->apiClass, 'response');
-        $actualPayload = $this->getPayloadMethod->invoke($this->apiClass);
-        
-        $this->assertEquals($expectedHeader, $actualHeader);
-        $this->assertArrayHasKey ($payloadKey, $actualPayload);
-        $this->assertEquals($payloadValue, $actualPayload[$payloadKey]);
-        
-        //Scenario 2 - 409 Ok
-        $status = 409;
-        $payloadKey = "conflict";
-        $payloadValue = "This is a test message with key information";
-        $payload = array($payloadKey => $payloadValue);
-        $expectedHeader = "HTTP/1.1 409 Conflict";
-        
-        $this->apiClass->respond($payload, $status);
-        $actualHeader = $this->getHeaderMethod->invoke($this->apiClass, 'response');
-        $actualPayload = $this->getPayloadMethod->invoke($this->apiClass);
-        
-        $this->assertEquals($expectedHeader, $actualHeader);
-        $this->assertArrayHasKey ($payloadKey, $actualPayload);
-        $this->assertEquals($payloadValue, $actualPayload[$payloadKey]);
     }
     
 }
