@@ -40,14 +40,14 @@ Routing
 1. app.get('$BASE/sample/?):
  * TAPI will load the SampleController and because of the URL structure it will try to perform the function mapped to "QUERY". If there is no custom mapping defined for QUERY, then TAPI will try to perform the "query" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same.
  
-1. app.get('$BASE/sample/:id/?):
+1. app.get('$BASE/sample/:id/*):
  * As before, TAPI will load the SampleController but because an extra parameter has been defined it will try to perform the function mapped to "GET". If there is no custom mapping defined for GET, then TAPI will try to perform the "get" function and if thats not defined in the SampleController class then TAPI will return a 501 Not Implemented and a JSON response indicating the same. If either of the first two cases exists, TAPI will pass in the parameters as an array into which ever function is called. 
  
-1. app.post('$BASE/sample/:optional?'):
+1. app.post('$BASE/sample/:optional*'):
  * TAPI will load the SampleController class and will look for a custom mapping against 'POST'. If it is set it will execute the mapped function otherwise it will attempt to execute the "save" function. As before, if neither condition is met TAPI will return the standard not implented response. If a condition is met TAPI will pass both the POST payload and the URL parameters to the function with the URL parameters passed in as an indexed array and the payload as an associative array. 
  
-1. app.put('$BASE/sample/:optional?'):
+1. app.put('$BASE/sample/:optional*'):
  * TAPI will load the SampleController class and will look for a custom mapping against 'PUT'. If set, then it will parse the function and attempt to run it as a method defined within the class. If no mapping is set TAPI will fall back to the default method and execute the "update" function. If this is not defined within the class extending the API class then it will fall back to the base class method and will return the standard not implented response.
  
-1. app.del('$BASE/sample/:optional?'):
+1. app.del('$BASE/sample/:optional*'):
  * TAPI will load the SampleController class and will look for a custom mapping against 'DELETE'. If there is no mapping then TAPI will attempt to execute the "delete" method. If there is no delete method on the Controller then TAPI will use the default "delete" method and provide the standard not implemented response.
