@@ -50,4 +50,4 @@ Routing
  * TAPI will load the SampleController class and will look for a custom mapping against 'PUT'. If set, then it will parse the function and attempt to run it as a method defined within the class. If no mapping is set TAPI will fall back to the default method and execute the "update" function. If this is not defined within the class extending the API class then it will fall back to the base class method and will return the standard not implented response.
  
 1. app.del('$BASE/sample/:optional?'):
- * TAPI will load the SampleController class and will look for a custom mapping against 'DELETE'.
+ * TAPI will load the SampleController class and will look for a custom mapping against 'DELETE'. If there is no mapping then TAPI will attempt to execute the "delete" method. If there is no delete method on the Controller then TAPI will use the default "delete" method and provide the standard not implemented response.
