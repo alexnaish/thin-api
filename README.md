@@ -30,9 +30,9 @@ All you have is a blank slate. You'll need to define your Controllers & Models b
 
 TAPI has the following conventions. For instance:
 
-1. The first parameter passed into the URL will map to your controller. For instance "http://$API_BASE_DIR/test/" will load the TestController class. If we attempt to access "http://$API_BASE_DIR/example/blah" will load the ExampleController class. All controllers must be suffixed with "Controller".
-1. All subsequent URL parameters will be passed into your controller functions as an indexed array.
-2. POST and PUT requests require the data payload to be in the JSON format. TAPI will decode the JSON and convert it into an associative array. Once converted TAPI will pass the payload into your respective POST/PUT function as the second parameter.
+1. The first parameter passed into the URL will map to your controller. For instance "http://$API_BASE_DIR/test/" will load the TestController class. If we attempt to access "http://$API_BASE_DIR/example/blah" will load the ExampleController class. All controller classes must be suffixed with "Controller" and be found in the "controllers" directory.
+2. All subsequent URL parameters after the first will be passed into your controller functions as an indexed array.
+3. POST and PUT requests require the data payload to be in the JSON format. TAPI will decode the JSON and convert it into an associative array. Once converted TAPI will pass the payload into your respective POST/PUT function as the second parameter.
 
 Routing
 -----
