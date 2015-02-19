@@ -23,7 +23,8 @@ Testing
 
 To run the tests please download PHPUnit as instructed [here](https://phpunit.de/manual/current/en/installation.html#installation.phar). Once you have downloaded and installed it, just run PHPUnit in the root folder of the project. 
 
-Test are ran against a Codeship instance: [ ![Codeship Status for alexnaish/thin-api](https://codeship.com/projects/028a57b0-9aaf-0132-709d-5e3821e41288/status?branch=master)](https://codeship.com/projects/63991)
+Test are ran on my CI account on Codeship. See the results here:
+[ ![Codeship Status for alexnaish/thin-api](https://codeship.com/projects/028a57b0-9aaf-0132-709d-5e3821e41288/status?branch=master)](https://codeship.com/projects/63991)
 
 Usage
 -----
