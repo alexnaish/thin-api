@@ -50,7 +50,7 @@ abstract class API {
     }
     
     private function _getRequestMethod ($serverArray){
-        $method = $serverArray['REQUEST_METHOD'];
+        $method = (array_key_exists('REQUEST_METHOD', $serverArray) ? $serverArray['REQUEST_METHOD']: 'MISSING');
         if ($method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $serverArray)) {
             if ($serverArray['HTTP_X_HTTP_METHOD'] == 'DELETE') {
                 $method = 'DELETE';
