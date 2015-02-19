@@ -6,33 +6,22 @@ class ApiCleanDataTest extends PHPUnit_Framework_TestCase
 {
  
     private $apiClass;
-    private $getPayloadMethod;
-    private $getHeaderMethod;
+    private $cleanDataMethod;
  
     function setUp() {
         $this->apiClass = new ConcreteApiClass();
-        $this->getPayloadMethod = new ReflectionMethod('API', 'getPayload');
-        $this->getPayloadMethod->setAccessible(TRUE);
-        $this->getHeaderMethod = new ReflectionMethod('API', 'getHeader');
-        $this->getHeaderMethod->setAccessible(TRUE);
+        $this->cleanDataMethod = new ReflectionMethod('API', '_cleanData');
+        $this->cleanDataMethod->setAccessible(TRUE);
     }
     
     public function testCleanDataRemovesHtmlTagsForStrings(){
-        $cleanDataMethod = new ReflectionMethod('API', '_cleanData');
-        $cleanDataMethod->setAccessible(TRUE);
-        
-        //Defaults
         $string = "<script>alert('test');</script>";
         $expected = "alert(\'test\');";
-        $result = $cleanDataMethod->invoke($this->apiClass, $string);
+        $result = $this->cleanDataMethod->invoke($this->apiClass, $string);
         $this->assertEquals($expected, $result);
     }
     
     public function testCleanDataRemovesHtmlTagsForEachArrayItem(){
-        $cleanDataMethod = new ReflectionMethod('API', '_cleanData');
-        $cleanDataMethod->setAccessible(TRUE);
-        
-        //Defaults
         $array = array(
                     "one" => "<script>alert('test');</script>",
                     "two" => "<html>TestHTML</html>",
@@ -43,7 +32,7 @@ class ApiCleanDataTest extends PHPUnit_Framework_TestCase
                     "two" => "TestHTML",
                     "three" => '',
                 );
-        $result = $cleanDataMethod->invoke($this->apiClass, $array);
+        $result = $this->cleanDataMethod->invoke($this->apiClass, $array);
         $this->assertArrayHasKey('one', $result);
         $this->assertArrayHasKey('two', $result);
         $this->assertArrayHasKey('three', $result);
