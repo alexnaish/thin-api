@@ -51,3 +51,8 @@ Routing
  
 1. app.del('$BASE/sample/:optional*'):
  * TAPI will load the SampleController class and will look for a custom mapping against 'DELETE'. If there is no mapping then TAPI will attempt to execute the "delete" method. If there is no delete method on the Controller then TAPI will use the default "delete" method and provide the standard not implemented response.
+ 
+ Questions
+ -----
+ 
+ Feel free to contact me at alex.naish.90@gmail.com. This project is free for anyone to modify and use but I would love if you would let me know if you do!
