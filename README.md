@@ -1,5 +1,7 @@
 # PHP Tiny API
 
+[![Build Status](https://travis-ci.org/alexnaish/thin-api.svg)](https://travis-ci.org/alexnaish/thin-api)
+
 Intro 
 -----
 
@@ -21,10 +23,7 @@ You can place the API anywhere on your hosting. The steps you need to follow to 
 Testing
 -----
 
-To run the tests please download PHPUnit as instructed [here](https://phpunit.de/manual/current/en/installation.html#installation.phar). Once you have downloaded and installed it, just run PHPUnit in the root folder of the project. 
-
-Test are ran on my CI account on Travis CI:
-[![Build Status](https://travis-ci.org/alexnaish/thin-api.svg)](https://travis-ci.org/alexnaish/thin-api)
+To run the tests please download PHPUnit as instructed [here](https://phpunit.de/manual/current/en/installation.html#installation.phar). Once you have downloaded and installed it, just run PHPUnit in the root folder of the project. Test are ran on Travis CI.
 
 Usage
 -----
