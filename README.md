@@ -16,7 +16,7 @@ You can place the API anywhere on your hosting. The steps you need to follow to 
 
 1. Clone the Repository and copy everything in the src folder into the directory you want your API to exist on.
 1. Modify the .htaccess file and change the RewriteBase property to the directory you've placed the code. 
-1. Update /lib/config.php to contain your database access credentials.
+1. Update /lib/config.php to contain your database access credentials (if required).
 1. Remove the test directory as required.
 1. Done.
 
